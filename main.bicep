@@ -12,7 +12,7 @@ module registry './modules/container-registry/registry/main.bicep' = {
   }
 }
 
-module servicePlan './modules/web/serverfarm/main.bicep' = {
+module serverfarm './modules/web/serverfarm/main.bicep' = {
   name: '${appServicePlanName}-deploy'
   params: {
     name: appServicePlanName
