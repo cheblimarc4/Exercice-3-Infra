@@ -6,10 +6,9 @@ param webAppName string ='marc-webapp'
 param webAppLocation string = 'West US'
 param containerRegistryImageName string = 'flask-demo'
 param containerRegistryImageVersion string = 'latest'
-param dockerRegistryServerUrl string ='https://${acrName}.azurecr.io'
-param dockerRegistryServerUsername string = 'marcchebli'
+param DOCKER_REGISTRY_SERVER_USERNAME string 
 @secure()
-param dockerRegistryServerPassword string
+param DOCKER_REGISTRY_SERVER_PASSWORD string
 
 module registry './modules/container-registry/registry/main.bicep' = {
   name: acrName
@@ -36,22 +35,22 @@ module serverfarm './modules/web/serverfarm/main.bicep' = {
   }
 }
 
-module webApp './modules/web/site/main.bicep' = {
-  name: '${webAppName}-deploy'
+module site './modules/web/site/main.bicep' = {
+  name: 'siteModule'
   params: {
+    kind: 'app'
     name: webAppName
     location: webAppLocation
-    kind: 'app'
     serverFarmResourceId: resourceId('Microsoft.Web/serverfarms', appServicePlanName)
     siteConfig: {
-      linuxFxVersion: 'DOCKER|${acrName}.azurecr.io/${containerRegistryImageName}:${containerRegistryImageVersion}'
+      linuxFxVersion: 'DOCKER|${acrName}.azurecr.io/${containerRegistryImageName }:${containerRegistryImageVersion}'
       appCommandLine: ''
     }
-    appSettingsKeyValuePairs: {
+    appSettingsKeyValuePairs : {
       WEBSITES_ENABLE_APP_SERVICE_STORAGE: false
-      DOCKER_REGISTRY_SERVER_URL: dockerRegistryServerUrl
-      DOCKER_REGISTRY_SERVER_USERNAME: dockerRegistryServerUsername
-      DOCKER_REGISTRY_SERVER_PASSWORD: dockerRegistryServerPassword
+      DOCKER_REGISTRY_SERVER_URL: 'https://${acrName}.azurecr.io'
+      DOCKER_REGISTRY_SERVER_USERNAME: DOCKER_REGISTRY_SERVER_USERNAME
+      DOCKER_REGISTRY_SERVER_PASSWORD: DOCKER_REGISTRY_SERVER_PASSWORD
     }
   }
 }
