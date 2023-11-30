@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
       "acrName": {
-        "value": "cheblimarc"
+        "value": "marcchebli"
       },
       "acrLocation": {
         "value": "West US"
