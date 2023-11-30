@@ -7,6 +7,9 @@
       },
       "acrLocation": {
         "value": "West US"
+      },
+      "appServicePlanName":{ 
+        "value": "marcchebli-appserviceplan"
       }
   }
 }
