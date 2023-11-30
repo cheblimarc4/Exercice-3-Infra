@@ -23,7 +23,7 @@ module serverfarm './modules/web/serverfarm/main.bicep' = {
       name: 'B1'
       size: 'B1'
       tier: 'Basic'
-      reserved: true
     }
+    reserved: true
   }
 }
