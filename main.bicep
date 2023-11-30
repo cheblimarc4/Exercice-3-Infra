@@ -6,10 +6,10 @@ param webAppName string ='marc-webapp'
 param webAppLocation string = 'West US'
 param containerRegistryImageName string = 'flask-demo'
 param containerRegistryImageVersion string = 'latest'
-param DOCKER_REGISTRY_SERVER_USERNAME string 
 @secure()
 param DOCKER_REGISTRY_SERVER_PASSWORD string
-
+param DOCKER_REGISTRY_SERVER_USERNAME string 
+param DOCKER_REGISTRY_SERVER_URL string  
 module registry './Ressources/ResourceModules-main 3/modules/container-registry/registry/main.bicep' = {
   name: acrName
   params: {
@@ -41,14 +41,14 @@ module site './Ressources/ResourceModules-main 3/modules/web/site/main.bicep' = 
     kind: 'app'
     name: webAppName
     location: webAppLocation
-    serverFarmResourceId: resourceId('Microsoft.Web/serverfarms', appServicePlanName)
+    serverFarmResourceId: serverfarm.outputs.resourceId
     siteConfig: {
       linuxFxVersion: 'DOCKER|${acrName}.azurecr.io/${containerRegistryImageName }:${containerRegistryImageVersion}'
       appCommandLine: ''
     }
     appSettingsKeyValuePairs : {
       WEBSITES_ENABLE_APP_SERVICE_STORAGE: false
-      DOCKER_REGISTRY_SERVER_URL: 'https://${acrName}.azurecr.io'
+      DOCKER_REGISTRY_SERVER_URL: DOCKER_REGISTRY_SERVER_URL
       DOCKER_REGISTRY_SERVER_USERNAME: DOCKER_REGISTRY_SERVER_USERNAME
       DOCKER_REGISTRY_SERVER_PASSWORD: DOCKER_REGISTRY_SERVER_PASSWORD
     }
