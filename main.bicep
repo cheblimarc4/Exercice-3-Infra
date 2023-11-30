@@ -7,7 +7,7 @@ param webAppLocation string = 'West US'
 param containerRegistryImageName string = 'flask-demo'
 param containerRegistryImageVersion string = 'latest'
 param dockerRegistryServerUrl string ='https://${acrName}.azurecr.io'
-param dockerRegistryServerUsername string
+param dockerRegistryServerUsername string = 'marcchebli'
 @secure()
 param dockerRegistryServerPassword string
 
