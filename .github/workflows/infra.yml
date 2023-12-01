@@ -25,5 +25,5 @@ jobs:
           --template-file ./main.bicep \
           --parameters @parameters.json \
           --parameters DOCKER_REGISTRY_SERVER_URL=${{ secrets.DOCKER_REGISTRY_SERVER_URL }} \
-          --parameters DOCKER_REGISTRY_SERVER_USERNAME=${{ secrets.DOCKER_REGISTRY_SERVER_USERNAME }} \
+          --parameters DOCKER_REGISTRY_SERVER_USERNAME=${{ secrets.DOCKER_REGISTRY_SERVER_USERNAME }} 
           --parameters DOCKER_REGISTRY_SERVER_PASSWORD=${{ secrets.DOCKER_REGISTRY_SERVER_PASSWORD }}
