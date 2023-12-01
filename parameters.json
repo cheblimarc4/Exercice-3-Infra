@@ -5,7 +5,7 @@
       "acrName": {
         "value": "marcchebli"
       },
-      "acrLocation": {
+      "location": {
         "value": "West US"
       },
       "appServicePlanName":{ 

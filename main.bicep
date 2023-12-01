@@ -1,20 +1,18 @@
 param acrName string 
-param acrLocation string = 'West US'
+param location string 
 param appServicePlanName string
-param appServicePlanLocation string = 'West US'
-param webAppName string ='marc-webapp'
-param webAppLocation string = 'West US'
-param containerRegistryImageName string = 'flask-demo'
-param containerRegistryImageVersion string = 'latest'
-@secure()
-param DOCKER_REGISTRY_SERVER_PASSWORD string
-param DOCKER_REGISTRY_SERVER_USERNAME string 
-param DOCKER_REGISTRY_SERVER_URL string  
+//param webAppName string ='marc-webapp'
+//param containerRegistryImageName string = 'flask-demo'
+//param containerRegistryImageVersion string = 'latest'
+//@secure()
+//param DOCKER_REGISTRY_SERVER_PASSWORD string
+//param DOCKER_REGISTRY_SERVER_USERNAME string 
+//param DOCKER_REGISTRY_SERVER_URL string  
 module registry './Ressources/ResourceModules-main 3/modules/container-registry/registry/main.bicep' = {
   name: acrName
   params: {
     name: acrName
-    location: acrLocation
+    location: location
     acrAdminUserEnabled: true
   }
 }
@@ -23,7 +21,7 @@ module serverfarm './Ressources/ResourceModules-main 3/modules/web/serverfarm/ma
   name: '${appServicePlanName}-deploy'
   params: {
     name: appServicePlanName
-    location: appServicePlanLocation
+    location: location
     sku: {
       capacity: 1
       family: 'B'
@@ -35,22 +33,3 @@ module serverfarm './Ressources/ResourceModules-main 3/modules/web/serverfarm/ma
   }
 }
 
-module site './Ressources/ResourceModules-main 3/modules/web/site/main.bicep' = {
-  name: 'siteModule'
-  params: {
-    kind: 'app'
-    name: webAppName
-    location: webAppLocation
-    serverFarmResourceId: serverfarm.outputs.resourceId
-    siteConfig: {
-      linuxFxVersion: 'DOCKER|${acrName}.azurecr.io/${containerRegistryImageName }:${containerRegistryImageVersion}'
-      appCommandLine: ''
-    }
-    appSettingsKeyValuePairs : {
-      WEBSITES_ENABLE_APP_SERVICE_STORAGE: false
-      DOCKER_REGISTRY_SERVER_URL: DOCKER_REGISTRY_SERVER_URL
-      DOCKER_REGISTRY_SERVER_USERNAME: DOCKER_REGISTRY_SERVER_USERNAME
-      DOCKER_REGISTRY_SERVER_PASSWORD: DOCKER_REGISTRY_SERVER_PASSWORD
-    }
-  }
-}
