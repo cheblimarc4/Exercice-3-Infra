@@ -5,7 +5,7 @@ param webAppName string ='marc-webapp'
 param containerRegistryImageName string = 'flask-demo'
 param containerRegistryImageVersion string = 'latest'
 @secure()
-param DOCKER_REGISTRY_SERVER_PASSWORD string
+param DOCKER_REGISTRY_SERVER_PASSWORD string = 'marc1234'
 param DOCKER_REGISTRY_SERVER_USERNAME string 
 param DOCKER_REGISTRY_SERVER_URL string  
 module registry './Ressources/ResourceModules-main 3/modules/container-registry/registry/main.bicep' = {
