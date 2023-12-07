@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
       "keyVaultName": {
-        "value": "marc-keyvault"
+        "value": "marc-keyvault1"
       },
       "location": {
         "value": "West US"
