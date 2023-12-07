@@ -33,7 +33,7 @@ jobs:
         resourceGroupName: ${{ env.RESOURCE_GROUP }}
         template: ./key-vault.bicep
         parameters: ./key-vault.json 
-        deploymentName: "${{ env.USER_ALIAS }}-keyvault"
+        deploymentName: "marc-keyvault"
         failOnStdErr: false
     - name: Deploy Bicep template
       run: |
