@@ -7,15 +7,18 @@ param containerRegistryImageVersion string = 'latest'
 @secure()
 param DOCKER_REGISTRY_SERVER_PASSWORD string
 param DOCKER_REGISTRY_SERVER_USERNAME string 
-param DOCKER_REGISTRY_SERVER_URL string  
-module registry './Ressources/ResourceModules-main 3/modules/container-registry/registry/main.bicep' = {
+param DOCKER_REGISTRY_SERVER_URL string 
+
+param keyVaultName string
+
+resource keyvault 'Microsoft.KeyVault/vaults@2023-02-01' existing = {
+  name: keyVaultName
+ }
+
+// Azure Container Registry module
+resource acr 'Microsoft.ContainerRegistry/registries@2023-07-01' existing = {
   name: acrName
-  params: {
-    name: acrName
-    location: location
-    acrAdminUserEnabled: true
-  }
-}
+ }
 
 module serverfarm './Ressources/ResourceModules-main 3/modules/web/serverfarm/main.bicep' = {
   name: '${appServicePlanName}-deploy'
