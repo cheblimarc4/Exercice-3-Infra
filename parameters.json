@@ -10,6 +10,9 @@
       },
       "appServicePlanName":{ 
         "value": "marcchebli-appserviceplan"
+      },
+      "keyVaultName": {
+        "value": "marc-keyvault1"
       }
   }
 }

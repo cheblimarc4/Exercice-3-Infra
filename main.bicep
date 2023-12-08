@@ -4,10 +4,6 @@ param appServicePlanName string
 param webAppName string ='marc-webapp'
 param containerRegistryImageName string = 'flask-demo'
 param containerRegistryImageVersion string = 'latest'
-@secure()
-param DOCKER_REGISTRY_SERVER_PASSWORD string
-param DOCKER_REGISTRY_SERVER_USERNAME string 
-param DOCKER_REGISTRY_SERVER_URL string 
 
 param keyVaultName string
 
@@ -36,22 +32,28 @@ module serverfarm './Ressources/ResourceModules-main 3/modules/web/serverfarm/ma
   }
 }
 
+// Azure Web App for Linux containers module
 module site './Ressources/ResourceModules-main 3/modules/web/site/main.bicep' = {
-  name: 'siteModule'
+  name: webAppName
+  dependsOn: [
+    serverfarm
+    acr
+    keyvault
+  ]
   params: {
-    kind: 'app'
     name: webAppName
     location: location
+    kind: 'app'
     serverFarmResourceId: serverfarm.outputs.resourceId
     siteConfig: {
-      linuxFxVersion: 'DOCKER|${acrName}.azurecr.io/${containerRegistryImageName }:${containerRegistryImageVersion}'
+      linuxFxVersion: 'DOCKER|${acrName}.azurecr.io/${containerRegistryImageName}:${containerRegistryImageVersion}'
       appCommandLine: ''
     }
-    appSettingsKeyValuePairs : {
+    appSettingsKeyValuePairs: {
       WEBSITES_ENABLE_APP_SERVICE_STORAGE: false
-      DOCKER_REGISTRY_SERVER_URL: DOCKER_REGISTRY_SERVER_URL
-      DOCKER_REGISTRY_SERVER_USERNAME: DOCKER_REGISTRY_SERVER_USERNAME
-      DOCKER_REGISTRY_SERVER_PASSWORD: DOCKER_REGISTRY_SERVER_PASSWORD
     }
+    dockerRegistryServerUrl: 'https://${acrName}.azurecr.io'
+    dockerRegistryServerUserName: keyvault.getSecret(keyVaultSecretNameACRUsername)
+    dockerRegistryServerPassword: keyvault.getSecret(keyVaultSecretNameACRPassword1)
   }
 }
