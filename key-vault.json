@@ -7,6 +7,9 @@
       },
       "location": {
         "value": "West US"
+      },
+      "acrName": {
+        "value": "marcchebli"
       }
     }
   }
