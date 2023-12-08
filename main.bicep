@@ -6,6 +6,8 @@ param containerRegistryImageName string = 'flask-demo'
 param containerRegistryImageVersion string = 'latest'
 
 param keyVaultName string
+param keyVaultSecretNameACRUsername string = 'acr-username'
+param keyVaultSecretNameACRPassword1 string = 'acr-password1'
 
 resource keyvault 'Microsoft.KeyVault/vaults@2023-02-01' existing = {
   name: keyVaultName
